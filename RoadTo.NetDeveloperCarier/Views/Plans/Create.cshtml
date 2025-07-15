@@ -1,5 +1,25 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model Plan
+
+<h1>New Plan!</h1>
+<form asp-action="Create">
+  <div class="mb-3">
+    <label class="form-label">Title</label>
+    <input asp-for="Name" class="form-control">
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Short Description</label>
+    <input asp-for="ShortDescription" class="form-control" placeholder="Today I...">
+  </div>
+  <div class="input-group mb-3">
+  <span class="input-group-text">Full Description</span>
+  <textarea asp-for="FullDescription" class="form-control" aria-label="With textarea"></textarea>
+</div>
+<select asp-for="DifficultyLevel" class="form-select mb-3" aria-label="Default select example">
+  <option selected>Open this select menu</option>
+        @foreach (var level in (DifficultyLevel[])ViewBag.DifficultyLevels)
+        {
+            <option value="@level">@level</option>
+        }
+</select>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>

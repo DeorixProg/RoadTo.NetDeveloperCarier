@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+
 namespace RoadTo.NetDeveloperCarier
 {
     public class Program
@@ -8,6 +10,7 @@ namespace RoadTo.NetDeveloperCarier
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            
 
             var app = builder.Build();
 
