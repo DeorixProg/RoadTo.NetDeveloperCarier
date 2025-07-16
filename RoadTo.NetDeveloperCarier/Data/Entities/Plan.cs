@@ -14,8 +14,10 @@
         public string FullDescription { get; set; }
         public DifficultyLevel DifficultyLevel { get; set; }
         public DateTime CreatedAt { get; set; }
-        public DateTime DeadLine { get; set; }
+        public DateTime? DeadLine { get; set; }
         public bool IsCompleted { get; set; }
+        
+        
     }
 
 }
