@@ -5,7 +5,9 @@ namespace RoadTo.NetDeveloperCarier.Data
 {
     public class PlansDBContext : DbContext
     {
-        
+        public PlansDBContext(DbContextOptions<PlansDBContext> options): base(options)
+        {
+        }
         public DbSet<Plan> Plans { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

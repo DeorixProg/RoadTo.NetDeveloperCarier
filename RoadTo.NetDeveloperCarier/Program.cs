@@ -1,4 +1,6 @@
 using Microsoft.EntityFrameworkCore;
+using RoadTo.NetDeveloperCarier.Data;
+using RoadTo.NetDeveloperCarier.Services;
 
 namespace RoadTo.NetDeveloperCarier
 {
@@ -10,7 +12,10 @@ namespace RoadTo.NetDeveloperCarier
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
-            
+            builder.Services.AddScoped<IPlansService, PlansService>();
+            builder.Services.AddDbContext<PlansDBContext>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 
             var app = builder.Build();
 
