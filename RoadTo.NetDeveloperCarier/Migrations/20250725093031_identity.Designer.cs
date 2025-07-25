@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RoadTo.NetDeveloperCarier.Data;
 
@@ -11,9 +12,11 @@ using RoadTo.NetDeveloperCarier.Data;
 namespace RoadTo.NetDeveloperCarier.Migrations
 {
     [DbContext(typeof(PlansDBContext))]
-    partial class PlansDBContextModelSnapshot : ModelSnapshot
+    [Migration("20250725093031_identity")]
+    partial class identity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -1,9 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using RoadTo.NetDeveloperCarier.Data.Entities;
 
 namespace RoadTo.NetDeveloperCarier.Data
 {
-    public class PlansDBContext : DbContext
+    public class PlansDBContext : IdentityDbContext<IdentityUser>
     {
         public PlansDBContext(DbContextOptions<PlansDBContext> options): base(options)
         {

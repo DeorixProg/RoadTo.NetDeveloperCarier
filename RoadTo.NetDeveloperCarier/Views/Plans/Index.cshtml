@@ -11,7 +11,10 @@
             <div class="col-sm-6 mb-3">
                 <div class="card">
                     <div class="card-body">
+                            <div class="bottom_card d-flex justify-content-between align-items-center">
                         <h5 class="card-title">@item.Name</h5>
+							<p class="card-text">Status: @(item.IsCompleted ? "Complited" : "In Progress")</p>
+								</div>
                         <p class="card-text">@item.ShortDescription</p>
 
                         <div class="bottom_card d-flex justify-content-between align-items-center">

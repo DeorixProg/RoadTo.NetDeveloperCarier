@@ -12,6 +12,7 @@ namespace RoadTo.NetDeveloperCarier.Services
         Plan GetPlanById(int id);
         void SaveChanges(Plan plan);
         void DeletePlan(int id);
+        //string IsPlanCompleted(int id);
     }
     public class PlansService : IPlansService
     {
@@ -69,5 +70,12 @@ namespace RoadTo.NetDeveloperCarier.Services
                 throw new ArgumentNullException(nameof(id), "Plan not found");
             }
         }
+        //public string IsPlanCompleted(int id)
+        //{
+        //    var plan = _context.Plans.Find(id);
+        //    if (plan == null)
+        //        throw new ArgumentNullException(nameof(id), "Plan not found");
+        //    return plan.IsCompleted ? "Complited" : "In Progres";
+        //}
     }
 }
