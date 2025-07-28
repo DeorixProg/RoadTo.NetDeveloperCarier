@@ -20,8 +20,16 @@ namespace RoadTo.NetDeveloperCarier.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            var user = await _userManager.GetUserAsync(User);
+            var isAdmin = await _userManager.IsInRoleAsync(user, "Admin");
+
+            if (isAdmin)
+            {
+                return View(_planService.GetAllPlans());
+            }
+
             var userId = _userManager.GetUserId(User);
             return View(_planService.GetAllPlans(userId));
         }

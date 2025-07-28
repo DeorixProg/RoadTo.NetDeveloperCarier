@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using RoadTo.NetDeveloperCarier.Data;
 using RoadTo.NetDeveloperCarier.Services;
@@ -7,28 +8,50 @@ namespace RoadTo.NetDeveloperCarier
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
             builder.Services.AddScoped<IPlansService, PlansService>();
+            builder.Services.AddScoped<IEmailSender, FakeEmailSender>();
             builder.Services.AddDbContext<PlansDBContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-            builder.Services.AddDefaultIdentity<IdentityUser>(options =>
+            //builder.Services.AddDefaultIdentity<IdentityUser>(options =>
+            //{
+            //    options.SignIn.RequireConfirmedAccount = true;
+            //    options.SignIn.RequireConfirmedEmail = false;
+            //    options.Password.RequiredLength = 6;
+            //    options.Password.RequireDigit = false;
+            //    options.Password.RequireLowercase = false;
+            //    options.Password.RequireUppercase = false;
+            //    options.Password.RequireNonAlphanumeric = false;
+            //}).AddEntityFrameworkStores<PlansDBContext>()
+            //.AddRoles<IdentityRole>();
+            builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
             {
-                options.SignIn.RequireConfirmedAccount = true;
+                options.SignIn.RequireConfirmedAccount = false;
                 options.SignIn.RequireConfirmedEmail = false;
                 options.Password.RequiredLength = 6;
                 options.Password.RequireDigit = false;
                 options.Password.RequireLowercase = false;
                 options.Password.RequireUppercase = false;
                 options.Password.RequireNonAlphanumeric = false;
-            }).AddEntityFrameworkStores<PlansDBContext>(); ;
+            }).AddEntityFrameworkStores<PlansDBContext>()
+            .AddRoles<IdentityRole>()
+            .AddDefaultTokenProviders();
+            builder.Services.AddRazorPages();
+
+
 
             var app = builder.Build();
 
+            using (var scope = app.Services.CreateScope())
+            {
+                var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+                await SeedRolesAsync(roleManager);
+            }
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
             {
@@ -50,6 +73,19 @@ namespace RoadTo.NetDeveloperCarier
             app.MapRazorPages();
 
             app.Run();
+        }
+        private static async Task SeedRolesAsync(RoleManager<IdentityRole> roleManager)
+        {
+            string[] roleNames = { "Admin", "User", "Manager" };
+
+            foreach (var roleName in roleNames)
+            {
+                var roleExists = await roleManager.RoleExistsAsync(roleName);
+                if (!roleExists)
+                {
+                    await roleManager.CreateAsync(new IdentityRole(roleName));
+                }
+            }
         }
     }
 }
