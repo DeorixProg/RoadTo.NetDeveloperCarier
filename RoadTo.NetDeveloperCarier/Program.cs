@@ -26,7 +26,6 @@ namespace RoadTo.NetDeveloperCarier
                 options.Password.RequireUppercase = false;
                 options.Password.RequireNonAlphanumeric = false;
             }).AddEntityFrameworkStores<PlansDBContext>(); ;
-            //builder.Services.Addiden
 
             var app = builder.Build();
 

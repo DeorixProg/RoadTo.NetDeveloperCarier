@@ -7,7 +7,7 @@ namespace RoadTo.NetDeveloperCarier.Services
     public interface IPlansService
     {
 
-        List<Plan> GetAllPlans();
+        List<Plan> GetAllPlans(string userId);
         void CreatePlan(Plan plan);
         Plan GetPlanById(int id);
         void SaveChanges(Plan plan);
@@ -21,9 +21,9 @@ namespace RoadTo.NetDeveloperCarier.Services
         {
             _context = context;
         }
-        public List<Plan> GetAllPlans()
+        public List<Plan> GetAllPlans(string userId)
         {
-            return _context.Plans.ToList();
+            return _context.Plans.Where(p => p.UserId == null || p.UserId == userId).ToList();
         }
         public void CreatePlan(Plan plan)
         {

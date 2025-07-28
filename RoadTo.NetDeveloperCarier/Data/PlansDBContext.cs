@@ -18,6 +18,7 @@ namespace RoadTo.NetDeveloperCarier.Data
             optionsBuilder.UseSqlServer(connectionstring);
                 
         }
+        
     } 
 }
     

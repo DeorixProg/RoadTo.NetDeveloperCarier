@@ -1,24 +1,29 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using RoadTo.NetDeveloperCarier.Data;
 using RoadTo.NetDeveloperCarier.Data.Entities;
 using RoadTo.NetDeveloperCarier.Services;
 
 namespace RoadTo.NetDeveloperCarier.Controllers
 {
-
+    [Authorize]
     public class PlansController : Controller
     {
         private readonly IPlansService _planService;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public PlansController(IPlansService planService)
+        public PlansController(IPlansService planService, UserManager<IdentityUser> UserManager)
         {
             _planService = planService;
+            _userManager = UserManager;
         }
 
         [HttpGet]
         public IActionResult Index()
         {
-            return View(_planService.GetAllPlans());
+            var userId = _userManager.GetUserId(User);
+            return View(_planService.GetAllPlans(userId));
         }
 
         [HttpGet]
@@ -31,12 +36,15 @@ namespace RoadTo.NetDeveloperCarier.Controllers
         [HttpPost]
         public IActionResult Create(Plan plan)
         {
-            if (ModelState.IsValid)
+            plan.UserId = _userManager.GetUserId(User);
+            if (!ModelState.IsValid)
             {
-                _planService.CreatePlan(plan);
-                return RedirectToAction("Index");
+                ViewBag.DifficultyLevels = Enum.GetValues(typeof(DifficultyLevel));
+                return View(plan);
             }
-            return View(plan);
+            _planService.CreatePlan(plan);
+            return RedirectToAction("Index");
+
         }
 
         [HttpGet]
