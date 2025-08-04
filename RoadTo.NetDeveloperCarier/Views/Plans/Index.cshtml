@@ -4,6 +4,10 @@
 <div class="d-grid gap-2">
     <a asp-action="Create" class="btn btn-primary mb-3" type="button">Create Plan!</a>
 </div>
+<div class="sorting">
+    <a class="btn btn-outline-secondary" asp-action="Index" asp-route-sortBy="@ViewData["NameSortParam"]">Sort By Name</a>
+    <a class="btn btn-outline-secondary" asp-action="Index" asp-route-sortBy="@ViewData["DifficultyLevelSortParam"]">Sort By Difficulty</a>
+</div>
 
 <div class="row">
     @foreach (var item in Model)

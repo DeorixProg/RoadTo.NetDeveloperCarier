@@ -9,6 +9,7 @@ namespace RoadTo.NetDeveloperCarier.Services
 
         List<Plan> GetAllPlans();
         List<Plan> GetAllPlans(string userId);
+        List<Plan> SortPlans(List<Plan> _plans, string sortBy);
         void CreatePlan(Plan plan);
         Plan GetPlanById(int id);
         void SaveChanges(Plan plan);
@@ -29,6 +30,26 @@ namespace RoadTo.NetDeveloperCarier.Services
         public List<Plan> GetAllPlans(string userId)
         {
             return _context.Plans.Where(p => p.UserId == null || p.UserId == userId).ToList();
+        }
+        public List<Plan> SortPlans(List<Plan> _plans, string sortBy)
+        {
+            IQueryable<Plan> plans = _plans.AsQueryable();
+            switch (sortBy)
+            {
+                case "name_desc":
+                    plans = plans.OrderByDescending(s => s.Name);
+                    break;
+                case "DifficultyLevel":
+                    plans = plans.OrderBy(s => s.DifficultyLevel);
+                    break;
+                case "difficulty_desc":
+                    plans = plans.OrderByDescending(s => s.DifficultyLevel);
+                    break;
+                default:
+                    plans = plans.OrderBy(s => s.Name);
+                    break;
+            }
+            return plans.ToList();
         }
         public void CreatePlan(Plan plan)
         {

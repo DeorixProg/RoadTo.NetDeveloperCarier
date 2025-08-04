@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using RoadTo.NetDeveloperCarier.Data;
 using RoadTo.NetDeveloperCarier.Data.Entities;
 using RoadTo.NetDeveloperCarier.Services;
@@ -20,18 +21,22 @@ namespace RoadTo.NetDeveloperCarier.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortBy)
         {
+            ViewData["NameSortParam"] = String.IsNullOrEmpty(sortBy) ? "name_desc" : "";
+            ViewData["DifficultyLevelSortParam"] = sortBy == "DifficultyLevel" ? "difficulty_desc" : "DifficultyLevel";
             var user = await _userManager.GetUserAsync(User);
             var isAdmin = await _userManager.IsInRoleAsync(user, "Admin");
 
             if (isAdmin)
             {
-                return View(_planService.GetAllPlans());
+                var adminPlans = _planService.GetAllPlans();
+                return View(_planService.SortPlans(adminPlans, sortBy));
             }
 
             var userId = _userManager.GetUserId(User);
-            return View(_planService.GetAllPlans(userId));
+            var plans = _planService.GetAllPlans(userId);
+            return View(_planService.SortPlans(plans, sortBy));
         }
 
         [HttpGet]
