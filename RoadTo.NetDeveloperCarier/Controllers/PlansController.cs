@@ -85,5 +85,11 @@ namespace RoadTo.NetDeveloperCarier.Controllers
             _planService.DeletePlan(id);
             return RedirectToAction("Index");
         }
+        [HttpPost]
+        public IActionResult IsPlanCompleted(int Id)
+        {
+            _planService.IsPlanCompleted(Id);
+            return RedirectToAction("Index");
+        }
     }
 }
