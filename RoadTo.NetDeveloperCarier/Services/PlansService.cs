@@ -102,6 +102,7 @@ namespace RoadTo.NetDeveloperCarier.Services
             if (plan != null)
             {
                 plan.IsCompleted = !plan.IsCompleted;
+                plan.CompletedAt = plan.IsCompleted ? DateTime.Now : null; // Set CompletedAt if completed
                 _context.SaveChanges();
             }
             else

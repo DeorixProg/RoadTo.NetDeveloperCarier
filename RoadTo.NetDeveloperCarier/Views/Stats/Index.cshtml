@@ -1,0 +1,28 @@
+﻿@model List<Plan>
+@using System.Linq
+@{
+	
+	var durations = Model
+		.Where(x => x.CompletedAt.HasValue && x.CreatedAt.HasValue)
+		.Select(x => (x.CompletedAt.Value - x.CreatedAt.Value).TotalSeconds);
+
+	var averageSeconds = durations.Any() ? durations.Average() : 0;
+
+	var averageDuration = TimeSpan.FromSeconds(averageSeconds);
+
+	string formatted = string.Format("{0} days {1} hours {2} minuts {3} seconds",
+		averageDuration.Days,
+		averageDuration.Hours,
+		averageDuration.Minutes,
+		averageDuration.Seconds);
+}
+
+<div class="main_stat">
+	<p class="main_stat_content">All plans: @Model.Count</p>
+	<p class="main_stat_content">Complited: @Model.Count(x => x.IsCompleted)</p>
+	<p class="main_stat_content">Complited after DeadLine: @Model.Count(x => x.IsCompleted && x.DeadLine < DateTime.Now)</p>
+	<p class="main_stat_content">Not complited: @Model.Count(x => !x.IsCompleted)</p>
+	<p class="main_stat_content">Overdue and not completed: @Model.Count(x => !x.IsCompleted && x.DeadLine < DateTime.Now)</p>
+	<p class="main_stat_content">Completion rate: @(Math.Round((double)Model.Count(x => x.IsCompleted) / Model.Count() * 100, 1))%</p>
+</div>
+<p>Average completion time: @formatted</p>

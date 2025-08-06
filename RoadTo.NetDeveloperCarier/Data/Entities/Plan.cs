@@ -18,9 +18,8 @@ namespace RoadTo.NetDeveloperCarier.Data.Entities
         public DifficultyLevel? DifficultyLevel { get; set; }
         public DateTime? CreatedAt { get; set; }
         public DateTime? DeadLine { get; set; }
+        public DateTime? CompletedAt { get; set; }
         public bool IsCompleted { get; set; }
         public string? UserId { get; set; } 
-
     }
-
 }

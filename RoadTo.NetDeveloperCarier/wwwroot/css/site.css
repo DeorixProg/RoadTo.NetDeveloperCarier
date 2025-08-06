@@ -37,3 +37,18 @@ body {
     margin-left: 10px;
     padding-bottom: 16px;
 }
+.main_stat {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    justify-content: space-between;
+    width: 100%;
+    background-color: #f8f9fa;
+    border: 1px solid red;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+.main_stat_content {
+    padding-top: 16px;
+    padding-left: 16px;
+    padding-right: 16px;
+}
